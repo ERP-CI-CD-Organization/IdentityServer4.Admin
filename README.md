@@ -28,7 +28,7 @@
 
 Then change `ConnectionString` to your database connection string in the appsettings.json, make sure `DatabaseProvider` is correct for your database,such as :
 ###
-builder.UseMySql("connectionString") or builder.UseSqlServer(connectionString)
+$ builder.UseMySql("connectionString") or builder.UseSqlServer(connectionString)
 ###
 
 #### Pull & start docker images
