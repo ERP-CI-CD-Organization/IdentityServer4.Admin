@@ -26,7 +26,10 @@
         $ sudo cd ~/ids4admin
         $ sudo curl https://raw.githubusercontent.com/zlzforever/IdentityServer4.Admin/master/src/IdentityServer4.Admin/appsettings.json -O
 
-Then change `ConnectionString` to your database connection string in the appsettings.json, make sure `DatabaseProvider` is correct for your database
+Then change `ConnectionString` to your database connection string in the appsettings.json, make sure `DatabaseProvider` is correct for your database,such as :
+###
+builder.UseMySql("connectionString") or builder.UseSqlServer(connectionString)
+###
 
 #### Pull & start docker images
 
