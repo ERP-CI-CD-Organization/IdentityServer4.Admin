@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using IdentityServer4.Admin.Entities;
+using IdentityServer4.Admin.EntitiesConfiguration;
 using IdentityServer4.Admin.Infrastructure;
 using IdentityServer4.Admin.Infrastructure.Entity;
 using IdentityServer4.EntityFramework.Entities;
@@ -26,6 +27,7 @@ namespace IdentityServer4.Admin
     {
         private readonly ConfigurationStoreOptions _configurationStoreOptions;
         private readonly OperationalStoreOptions _operationalStoreOptions;
+       
 
         /// <summary>
         /// Gets or sets the clients.
@@ -86,21 +88,33 @@ namespace IdentityServer4.Admin
 
         public AdminDbContext()
         {
+            
         }
 
         public AdminDbContext(DbContextOptions<AdminDbContext> options,
             ConfigurationStoreOptions storeOptions,
-            OperationalStoreOptions operationalStoreOptions)
+            OperationalStoreOptions operationalStoreOptions )
             : base(options)
         {
             _configurationStoreOptions = storeOptions;
             _operationalStoreOptions = operationalStoreOptions;
+           
         }
 
         public AdminDbContext CreateDbContext(string[] args)
         {
             var builder = new DbContextOptionsBuilder<AdminDbContext>();
-            builder.UseMySql(GetConnectionString(args.Length > 0 ? args[0] : "appsettings.json"));
+
+          
+                
+                  //  builder.UseMySql(GetConnectionString(args.Length > 0 ? args[0] : "appsettings.json"));
+                       
+               
+                    builder.UseSqlServer(GetConnectionString(args.Length > 0 ? args[0] : "appsettings.json"));
+                   
+              
+            
+          
 
             return new AdminDbContext(builder.Options, new ConfigurationStoreOptions(), new OperationalStoreOptions());
         }
@@ -114,7 +128,7 @@ namespace IdentityServer4.Admin
             builder.Entity<ApiResource>().HasIndex(p => p.Name).IsUnique();
 
             builder.Entity<User>().HasIndex(u => u.CreationTime);
-
+            builder.ApplyConfiguration(new IdentityResourcesConfiguration());
             base.OnModelCreating(builder);
         }
 
@@ -133,6 +147,10 @@ namespace IdentityServer4.Admin
         public override int SaveChanges()
         {
             var userId = this.GetService<IHttpContextAccessor>()?.HttpContext?.User?.Identity?.GetUserId();
+            if (userId == null)
+            {
+                return base.SaveChanges();
+            }
 
             foreach (var entry in ChangeTracker.Entries().ToList())
             {

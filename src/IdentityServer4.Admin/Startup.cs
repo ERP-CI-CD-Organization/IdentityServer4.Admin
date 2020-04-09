@@ -80,7 +80,7 @@ namespace IdentityServer4.Admin
             }
 
             services.AddDbContext<IDbContext, AdminDbContext>(dbContextOptionsBuilder);
-
+            
             // Add aspnetcore identity
             IdentityBuilder idBuilder = services.AddIdentity<User, Role>(options =>
             {
@@ -131,9 +131,11 @@ namespace IdentityServer4.Admin
             {
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
+                app.UseHttpsRedirection();
             }
 
-            app.UseHttpsRedirection();
+             
+            
             if (_options.StorageRoot == "wwwroot")
             {
                 app.UseStaticFiles();
