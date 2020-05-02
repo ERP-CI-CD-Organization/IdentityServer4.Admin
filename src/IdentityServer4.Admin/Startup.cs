@@ -7,11 +7,13 @@ using IdentityServer4.Admin.Entities;
 using IdentityServer4.Admin.Infrastructure;
 using IdentityServer4.ResponseHandling;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -36,7 +38,8 @@ namespace IdentityServer4.Admin
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(typeof(AdminOptions));
-
+            //services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddHttpContextAccessor();
             // Add configuration
             services.AddScoped<AdminOptions>();
 
@@ -53,6 +56,7 @@ namespace IdentityServer4.Admin
             services.AddResponseCaching();
 
             services.AddAuthorization();
+           
 
             // Add DbContext            
             Action<DbContextOptionsBuilder> dbContextOptionsBuilder;
