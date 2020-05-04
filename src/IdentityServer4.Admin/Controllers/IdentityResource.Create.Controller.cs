@@ -13,7 +13,7 @@ namespace IdentityServer4.Admin.Controllers
 {
     public partial class IdentityResourceController
     {
-        [Authorize(Roles = AdminConsts.AdminName)]
+        [Authorize(Roles = AdminConstants.AdminName)]
         [HttpGet("create")]
         public Task<IActionResult> CreateAsync(string returnUrl)
         {
@@ -21,7 +21,7 @@ namespace IdentityServer4.Admin.Controllers
             return Task.FromResult((IActionResult) View("Create", new IdentityResourceViewModel()));
         }
 
-        [Authorize(Roles = AdminConsts.AdminName)]
+        [Authorize(Roles = AdminConstants.AdminName)]
         [HttpPost("create")]
         public async Task<IActionResult> CreateAsync(string returnUrl, IdentityResourceViewModel dto)
         {

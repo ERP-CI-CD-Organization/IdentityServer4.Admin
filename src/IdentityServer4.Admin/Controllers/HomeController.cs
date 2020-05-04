@@ -35,7 +35,7 @@ namespace IdentityServer4.Admin.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            if (HttpContext.User.IsInRole(AdminConsts.AdminName))
+            if (HttpContext.User.IsInRole(AdminConstants.AdminName))
             {
                 var viewModel = new DashboardViewModel
                 {

@@ -31,6 +31,7 @@ namespace IdentityServer4.Admin
 
         public void EnsureData()
         {
+            AddBranches();//先填充branch数据，因为user依赖branch
             if (!_dbContext.Users.Any())
             {
                 _logger.LogInformation("Seeding database...");
@@ -38,8 +39,8 @@ namespace IdentityServer4.Admin
                 var role = new Role
                 {
                     Id = Guid.NewGuid(),
-                    Name = AdminConsts.AdminName,
-                    Description = "Super admin"
+                    Name = AdminConstants.AdminName,
+                    Description = "超级管理员"
                 };
                 var identityResult = _serviceProvider.GetRequiredService<RoleManager<Role>>().CreateAsync(role).Result;
 
@@ -52,7 +53,7 @@ namespace IdentityServer4.Admin
                 var user = new User
                 {
                     Id = Guid.NewGuid(),
-                    UserName = "admin",
+                    UserName = "Administrator",
                     Email = "admin@ids4admin.com",
                     EmailConfirmed = true,
                     CreationTime = DateTime.Now
@@ -70,7 +71,16 @@ namespace IdentityServer4.Admin
                     throw new IdentityServer4AdminException("Create super admin user failed");
                 }
 
-                identityResult = userMgr.AddToRoleAsync(user, AdminConsts.AdminName).Result;
+                identityResult = userMgr.AddToRoleAsync(user, AdminConstants.AdminName).Result;
+                _dbContext.Roles.Add(new Role()
+                {
+                    BranchId = 1000,
+                    CreationTime = DateTime.Now,
+                    Id = Guid.NewGuid(),
+                    Name = "BranchOwner",
+                    NormalizedName = "系统管理员",
+
+                });
                 if (!identityResult.Succeeded)
                 {
                     throw new IdentityServer4AdminException("Add super admin user to role failed");
@@ -112,7 +122,7 @@ namespace IdentityServer4.Admin
                         throw new IdentityServer4AdminException("Create super admin user failed");
                     }
 
-                    identityResult = userMgr.AddToRoleAsync(user, AdminConsts.AdminName).Result;
+                    identityResult = userMgr.AddToRoleAsync(user, AdminConstants.AdminName).Result;
                     if (!identityResult.Succeeded)
                     {
                         throw new IdentityServer4AdminException("Add super admin user to role failed");
@@ -212,6 +222,28 @@ namespace IdentityServer4.Admin
             }
         }
 
+        private void AddBranches()
+        {
+            if (!_dbContext.Branches.Any())
+            {
+                _logger.LogInformation("branches数据正在填充");
+                foreach (var branch in GetBranches())
+                {
+                    if (!_isDev)
+                    {
+                        if (branch.Id == 0)
+                            _dbContext.Branches.Add(branch);
+                        break;
+                    }
+                    _dbContext.Branches.Add(branch);
+                }
+            }
+            else
+            {
+                _logger.LogInformation("branch数据已经被填充");
+            }
+        }
+
         private IEnumerable<ApiResource> GetApiResources()
         {
             return new List<ApiResource>
@@ -231,6 +263,23 @@ namespace IdentityServer4.Admin
                 new IdentityResources.Email(),
                 new IdentityResources.Phone(),
                 new IdentityResource("role", "Your roles", new[] {"role"})
+            };
+        }
+
+        private IEnumerable<Branch> GetBranches()
+        {
+            return  new List<Branch>()
+            {
+                new Branch()
+                {
+                     Id = 1000,
+                     Name = "微软亚太研究中心"
+                },
+                new Branch()
+                {
+                    Id = 0,
+                    Name = "系统初始化"
+                },
             };
         }
 

@@ -10,7 +10,7 @@ namespace IdentityServer4.Admin.Controllers
 {
     public partial class UserController
     {
-        [Authorize(Roles = AdminConsts.AdminName)]
+        [Authorize(Roles = AdminConstants.AdminName)]
         [HttpPost("{userId}")]
         public async Task<IActionResult> UpdateAsync(Guid userId, string returnUrl, ViewUserViewModel dto)
         {
@@ -22,15 +22,15 @@ namespace IdentityServer4.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                if (user.UserName == AdminConsts.AdminName && dto.UserName != AdminConsts.AdminName)
+                if (user.UserName == AdminConstants.AdminName && dto.UserName != AdminConstants.AdminName)
                 {
                     ModelState.AddModelError("UserName", "Admin is not allowed to change user name");
                     return View("View", dto);
                 }
 
-                if (user.UserName != AdminConsts.AdminName && dto.UserName == AdminConsts.AdminName)
+                if (user.UserName != AdminConstants.AdminName && dto.UserName == AdminConstants.AdminName)
                 {
-                    ModelState.AddModelError("UserName", $"User name {AdminConsts.AdminName} is not allowed");
+                    ModelState.AddModelError("UserName", $"User name {AdminConstants.AdminName} is not allowed");
                     return View("View", dto);
                 }
 

@@ -63,6 +63,10 @@ namespace IdentityServer4.Admin.Entities
         /// Checks if this entity is transient (it has not an Id).
         /// </summary>
         /// <returns>True, if this entity is transient</returns>
+        ///
+        public int BranchId { get; set; }
+
+        public Branch Branch { get; set; }
         public virtual bool IsTransient()
         {
             if (EqualityComparer<TKey>.Default.Equals(Id, default))

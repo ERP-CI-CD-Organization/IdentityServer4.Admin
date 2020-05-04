@@ -14,7 +14,7 @@ namespace IdentityServer4.Admin.Controllers
         public IActionResult New()
         {
             var bytes = VerificationCodeHelper.Create(out var code, 5);
-            HttpContext.Session.SetString(AdminConsts.VerificationCode, code);
+            HttpContext.Session.SetString(AdminConstants.VerificationCode, code);
             Response.Body.Dispose();
             return File(bytes, @"image/png");
         }

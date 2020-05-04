@@ -14,7 +14,7 @@ namespace IdentityServer4.Admin.Controllers
 {
     public partial class IdentityResourceController
     {
-        [Authorize(Roles = AdminConsts.AdminName)]
+        [Authorize(Roles = AdminConstants.AdminName)]
         [HttpPost("{id}")]
         public async Task<IActionResult> UpdateAsync(int id, string returnUrl, IdentityResourceViewModel dto)
         {

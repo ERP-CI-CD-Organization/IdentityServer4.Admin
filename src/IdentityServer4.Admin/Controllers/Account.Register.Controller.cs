@@ -26,10 +26,10 @@ namespace IdentityServer4.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (!string.Equals(HttpContext.Session.GetString(AdminConsts.VerificationCode)?.ToLower(),
+                if (!string.Equals(HttpContext.Session.GetString(AdminConstants.VerificationCode)?.ToLower(),
                     model.VerificationCode?.ToLower()))
                 {
-                    ModelState.AddModelError(AdminConsts.VerificationCode, "验证码不正确");
+                    ModelState.AddModelError(AdminConstants.VerificationCode, "验证码不正确");
                 }
                 else if (model.AgreeTerms != "true")
                 {

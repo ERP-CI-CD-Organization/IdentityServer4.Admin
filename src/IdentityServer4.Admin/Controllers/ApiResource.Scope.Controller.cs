@@ -14,7 +14,7 @@ namespace IdentityServer4.Admin.Controllers
 {
     public partial class ApiResourceController
     {
-        [Authorize(Roles = AdminConsts.AdminName)]
+        [Authorize(Roles = AdminConstants.AdminName)]
         [HttpGet("{id}/scope")]
         public async Task<IActionResult> ScopeAsync(int id)
         {
@@ -53,7 +53,7 @@ namespace IdentityServer4.Admin.Controllers
             return View("Scope", viewModel);
         }
 
-        [Authorize(Roles = AdminConsts.AdminName)]
+        [Authorize(Roles = AdminConstants.AdminName)]
         [HttpGet("{id}/scope/create")]
         public async Task<IActionResult> CreateScopeAsync(int id)
         {
@@ -67,7 +67,7 @@ namespace IdentityServer4.Admin.Controllers
             return View("CreateScope", new ApiResourceScopeViewModel());
         }
 
-        [Authorize(Roles = AdminConsts.AdminName)]
+        [Authorize(Roles = AdminConstants.AdminName)]
         [HttpPost("{id}/scope/create")]
         public async Task<IActionResult> CreateScopeAsync(int id, ApiResourceScopeViewModel dto)
         {
@@ -135,7 +135,7 @@ namespace IdentityServer4.Admin.Controllers
             }
         }
 
-        [Authorize(Roles = AdminConsts.AdminName)]
+        [Authorize(Roles = AdminConstants.AdminName)]
         [HttpGet("{resourceId}/scope/{id}")]
         public async Task<IActionResult> ScopeAsync(int resourceId, int id)
         {
@@ -174,7 +174,7 @@ namespace IdentityServer4.Admin.Controllers
             return View("ViewScope", viewModel);
         }
 
-        [Authorize(Roles = AdminConsts.AdminName)]
+        [Authorize(Roles = AdminConstants.AdminName)]
         [HttpPost("{resourceId}/scope/{id}")]
         public async Task<IActionResult> UpdateScopeAsync(int resourceId, int id, string returnUrl,
             ApiResourceScopeViewModel dto)

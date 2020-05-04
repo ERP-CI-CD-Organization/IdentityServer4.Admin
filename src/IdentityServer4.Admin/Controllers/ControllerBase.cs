@@ -27,7 +27,7 @@ namespace IdentityServer4.Admin.Controllers
 
         protected bool IsAdmin()
         {
-            return User.IsInRole(AdminConsts.AdminName);
+            return User.IsInRole(AdminConstants.AdminName);
         }
 
         protected Guid UserId => HttpContext.User.Identity.GetUserId<Guid>();

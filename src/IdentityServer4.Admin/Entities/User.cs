@@ -181,6 +181,10 @@ namespace IdentityServer4.Admin.Entities
         /// </summary>
         public override int AccessFailedCount { get; set; }
 
+        public int BranchId { get; set; }
+        public Branch Branch { get; set; }
+
+        public bool IsDelete { get; set; }
         /// <summary>
         /// Checks if this entity is transient (it has not an Id).
         /// </summary>

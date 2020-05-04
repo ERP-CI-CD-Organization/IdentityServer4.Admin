@@ -18,15 +18,15 @@ namespace IdentityServer4.Admin.Controllers
                 return NotFound();
             }
 
-            if (role.Name == AdminConsts.AdminName && role.Name != AdminConsts.AdminName)
+            if (role.Name == AdminConstants.AdminName && role.Name != AdminConstants.AdminName)
             {
                 ModelState.AddModelError("Name", "Admin is not allowed to change name");
                 return View("View", dto);
             }
 
-            if (role.Name != AdminConsts.AdminName && dto.Name == AdminConsts.AdminName)
+            if (role.Name != AdminConstants.AdminName && dto.Name == AdminConstants.AdminName)
             {
-                ModelState.AddModelError("Name", $"Role name must not be {AdminConsts.AdminName}");
+                ModelState.AddModelError("Name", $"Role name must not be {AdminConstants.AdminName}");
                 return View("View", dto);
             }
 

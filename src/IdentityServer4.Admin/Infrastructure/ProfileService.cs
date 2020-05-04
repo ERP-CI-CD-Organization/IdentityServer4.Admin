@@ -58,7 +58,7 @@ namespace IdentityServer4.Admin.Infrastructure
                     claims.Add(claim);
                 }
             }
-            context.IssuedClaims = context.IssuedClaims ?? new List<Claim>();
+            context.IssuedClaims ??= new List<Claim>();
 
             foreach (var claim in claims)
             {
@@ -118,6 +118,11 @@ namespace IdentityServer4.Admin.Infrastructure
                     {
                         context.IssuedClaims.Add(new Claim("title", user.Title ?? ""));
                         continue;
+                    }
+                    case "branchId":
+                    {
+                        context.IssuedClaims.Add(new Claim("branchId", user.BranchId.ToString()));
+                            continue;
                     }
                 }
             }

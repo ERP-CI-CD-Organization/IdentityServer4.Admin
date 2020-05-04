@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 namespace IdentityServer4.Admin.Controllers.Api
 {
     [Route("api/[controller]")]
-    [Authorize(Roles = AdminConsts.AdminName)]
+    [Authorize(Roles = AdminConstants.AdminName)]
     public class UserController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
@@ -36,7 +36,7 @@ namespace IdentityServer4.Admin.Controllers.Api
                 return BadRequest(new {Code = 400, Msg = "User not exists"});
             }
 
-            if (user.UserName == AdminConsts.AdminName)
+            if (user.UserName == AdminConstants.AdminName)
             {
                 return BadRequest(new {Code = 400, Msg = "Disable admin is not allowed"});
             }
@@ -78,7 +78,7 @@ namespace IdentityServer4.Admin.Controllers.Api
                 return BadRequest(new {Code = 400, Msg = "User not exists"});
             }
 
-            if (user.UserName == AdminConsts.AdminName)
+            if (user.UserName == AdminConstants.AdminName)
             {
                 return BadRequest(new {Code = 400, Msg = "Delete admin is not allowed"});
             }
@@ -105,7 +105,7 @@ namespace IdentityServer4.Admin.Controllers.Api
                 return BadRequest(new {Code = 400, Msg = "User not exists"});
             }
 
-            if (user.UserName == AdminConsts.AdminName)
+            if (user.UserName == AdminConstants.AdminName)
             {
                 return BadRequest(new {Code = 400, Msg = "Add role to admin is not allowed"});
             }
@@ -124,7 +124,7 @@ namespace IdentityServer4.Admin.Controllers.Api
                 return BadRequest(new {Code = 400, Msg = "User not exists"});
             }
 
-            if (user.UserName == AdminConsts.AdminName)
+            if (user.UserName == AdminConstants.AdminName)
             {
                 return BadRequest(new {Code = 400, Msg = "Remove role from admin is not allowed"});
             }

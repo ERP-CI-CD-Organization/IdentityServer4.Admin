@@ -10,7 +10,7 @@ namespace IdentityServer4.Admin.Controllers
 {
     public partial class UserController
     {
-        [Authorize(Roles = AdminConsts.AdminName)]
+        [Authorize(Roles = AdminConstants.AdminName)]
         [HttpGet("{userId}/set-password")]
         public IActionResult SetPassword(string returnUrl)
         {
@@ -18,7 +18,7 @@ namespace IdentityServer4.Admin.Controllers
             return View(new SetPasswordViewModel());
         }
 
-        [Authorize(Roles = AdminConsts.AdminName)]
+        [Authorize(Roles = AdminConstants.AdminName)]
         [HttpPost("{userId}/set-password")]
         public async Task<IActionResult> SetPassword(Guid userId, string returnUrl, SetPasswordViewModel dto)
         {
@@ -35,7 +35,7 @@ namespace IdentityServer4.Admin.Controllers
                 return NotFound();
             }
 
-            if (user.UserName == AdminConsts.AdminName)
+            if (user.UserName == AdminConstants.AdminName)
             {
                 return StatusCode(500);
             }

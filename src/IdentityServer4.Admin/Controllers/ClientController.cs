@@ -13,7 +13,7 @@ using X.PagedList;
 
 namespace IdentityServer4.Admin.Controllers
 {
-    [Authorize(Roles = AdminConsts.AdminName)]
+    [Authorize(Roles = AdminConstants.AdminName)]
     [Route("client")]
     public partial class ClientController : ControllerBase
     {
@@ -49,7 +49,7 @@ namespace IdentityServer4.Admin.Controllers
             return View(queryResult);
         }
 
-        [Authorize(Roles = AdminConsts.AdminName)]
+        [Authorize(Roles = AdminConstants.AdminName)]
         [HttpGet("{id}")]
         public async Task<IActionResult> ViewAsync(int id, string returnUrl)
         {

@@ -15,7 +15,7 @@ using X.PagedList;
 
 namespace IdentityServer4.Admin.Controllers
 {
-    [Authorize(Roles = AdminConsts.AdminName)]
+    [Authorize(Roles = AdminConstants.AdminName)]
     [Route("role")]
     public partial class RoleController : ControllerBase
     {

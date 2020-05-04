@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 namespace IdentityServer4.Admin.Controllers.Api
 {
     [Route("api/identity-resource")]
-    [Authorize(Roles = AdminConsts.AdminName)]
+    [Authorize(Roles = AdminConstants.AdminName)]
     [SecurityHeaders]
     public class IdentityResourceController : ControllerBase
     {

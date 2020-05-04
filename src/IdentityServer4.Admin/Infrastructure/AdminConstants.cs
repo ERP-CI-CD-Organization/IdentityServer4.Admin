@@ -1,8 +1,8 @@
 namespace IdentityServer4.Admin.Infrastructure
 {
-    public static class AdminConsts
+    public static class AdminConstants
     {
-        public const string AdminName = "admin";
+        public const string AdminName = "Administrator";
         public const string VerificationCode = "VerificationCode";
     }
 }

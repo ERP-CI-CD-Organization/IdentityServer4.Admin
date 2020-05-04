@@ -13,7 +13,7 @@ namespace IdentityServer4.Admin.Controllers
 {
     public partial class UserController
     {
-        [Authorize(Roles = AdminConsts.AdminName)]
+        [Authorize(Roles = AdminConstants.AdminName)]
         [HttpGet("{userId}/role")]
         public async Task<IActionResult> UserRoleAsync(Guid userId)
         {

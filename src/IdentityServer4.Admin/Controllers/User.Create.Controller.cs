@@ -9,7 +9,7 @@ namespace IdentityServer4.Admin.Controllers
 {
     public partial class UserController
     {
-        [Authorize(Roles = AdminConsts.AdminName)]
+        [Authorize(Roles = AdminConstants.AdminName)]
         [HttpGet("create")]
         public Task<IActionResult> CreateAsync(string returnUrl)
         {
@@ -17,7 +17,7 @@ namespace IdentityServer4.Admin.Controllers
             return Task.FromResult<IActionResult>(View("Create", new CreateUserViewModel()));
         }
 
-        [Authorize(Roles = AdminConsts.AdminName)]
+        [Authorize(Roles = AdminConstants.AdminName)]
         [HttpPost("create")]
         public async Task<IActionResult> CreateAsync(string returnUrl, CreateUserViewModel dto)
         {
@@ -26,9 +26,9 @@ namespace IdentityServer4.Admin.Controllers
                 return View("Create", dto);
             }
 
-            if (dto.UserName == AdminConsts.AdminName)
+            if (dto.UserName == AdminConstants.AdminName)
             {
-                ModelState.AddModelError("UserName", $"User name {AdminConsts.AdminName} is not allowed");
+                ModelState.AddModelError("UserName", $"User name {AdminConstants.AdminName} is not allowed");
                 return View("Create", dto);
             }
 

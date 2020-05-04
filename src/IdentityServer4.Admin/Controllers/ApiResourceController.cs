@@ -10,7 +10,7 @@ using X.PagedList;
 
 namespace IdentityServer4.Admin.Controllers
 {
-    [Authorize(Roles = AdminConsts.AdminName)]
+    [Authorize(Roles = AdminConstants.AdminName)]
     [Route("api-resource")]
     public partial class ApiResourceController : ControllerBase
     {
@@ -23,7 +23,7 @@ namespace IdentityServer4.Admin.Controllers
             _dbContext = dbContext;
         }
 
-        [Authorize(Roles = AdminConsts.AdminName)]
+        [Authorize(Roles = AdminConstants.AdminName)]
         [HttpGet]
         public async Task<IActionResult> Index(PagedQuery input)
         {
@@ -48,7 +48,7 @@ namespace IdentityServer4.Admin.Controllers
             return View(viewModel);
         }
 
-        [Authorize(Roles = AdminConsts.AdminName)]
+        [Authorize(Roles = AdminConstants.AdminName)]
         [HttpGet("{id}")]
         public async Task<IActionResult> ViewAsync(int id, string returnUrl)
         {

@@ -33,7 +33,7 @@ namespace IdentityServer4.Admin.Controllers
             _mapper = mapper;
         }
 
-        [Authorize(Roles = AdminConsts.AdminName)]
+        [Authorize(Roles = AdminConstants.AdminName)]
         [HttpGet]
         public async Task<IActionResult> Index(KeywordPagedQuery input)
         {
@@ -69,7 +69,7 @@ namespace IdentityServer4.Admin.Controllers
             return View(viewModel);
         }
 
-        [Authorize(Roles = AdminConsts.AdminName)]
+        [Authorize(Roles = AdminConstants.AdminName)]
         [HttpGet("{userId}")]
         public async Task<IActionResult> ViewAsync(Guid userId, string returnUrl)
         {

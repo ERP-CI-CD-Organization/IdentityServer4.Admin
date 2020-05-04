@@ -85,6 +85,7 @@ namespace IdentityServer4.Admin
         public DbSet<ClientScope> ClientScopes { get; set; }
         public DbSet<ClientIdPRestriction> ClientIdPRestrictions { get; set; }
         public DbSet<ClientCorsOrigin> ClientCorsOrigins { get; set; }
+        public  virtual DbSet<Branch> Branches { get; set; }
 
         public AdminDbContext()
         {
@@ -127,8 +128,11 @@ namespace IdentityServer4.Admin
 
             builder.Entity<ApiResource>().HasIndex(p => p.Name).IsUnique();
 
-            builder.Entity<User>().HasIndex(u => u.CreationTime);
+            builder.ApplyConfiguration(new BranchConfiguration());
             builder.ApplyConfiguration(new IdentityResourcesConfiguration());
+            builder.ApplyConfiguration(new UserConfiguration());
+            builder.ApplyConfiguration(new RoleConfiguration());
+           
             base.OnModelCreating(builder);
         }
 

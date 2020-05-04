@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 namespace IdentityServer4.Admin.Controllers.Api
 {
     [Route("api/[controller]")]
-    [Authorize(Roles = AdminConsts.AdminName)]
+    [Authorize(Roles = AdminConstants.AdminName)]
     [SecurityHeaders]
     public class RoleController : ControllerBase
     {
@@ -33,7 +33,7 @@ namespace IdentityServer4.Admin.Controllers.Api
             }
 
 
-            if (role.Name == AdminConsts.AdminName)
+            if (role.Name == AdminConstants.AdminName)
             {
                 return BadRequest(new {Code = 500, Msg = "Delete admin is not allowed"});
             }
