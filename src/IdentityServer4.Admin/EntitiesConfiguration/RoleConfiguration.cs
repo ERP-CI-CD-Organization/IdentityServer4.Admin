@@ -16,6 +16,7 @@ namespace IdentityServer4.Admin.EntitiesConfiguration
                    .HasForeignKey(x => x.BranchId);
 
             builder.Property(x => x.BranchId).IsRequired().HasDefaultValue(0);
+            builder.HasQueryFilter(x => x.Name != "Administrator");
         }
     }
 }
