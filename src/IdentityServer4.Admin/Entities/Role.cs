@@ -51,7 +51,7 @@ namespace IdentityServer4.Admin.Entities
         /// <summary>
         /// Creation time of this entity.
         /// </summary>
-        public DateTime CreationTime { get; set; }
+        public DateTime CreationTime { get; set; } = DateTime.Now;
 
         /// <summary>
         /// Creator of this entity.

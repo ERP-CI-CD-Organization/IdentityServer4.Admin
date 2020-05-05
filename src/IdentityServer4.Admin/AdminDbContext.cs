@@ -132,7 +132,7 @@ namespace IdentityServer4.Admin
             builder.ApplyConfiguration(new IdentityResourcesConfiguration());
             builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new RoleConfiguration());
-           
+           // builder.ApplyConfiguration(new UserRoleConfiguration());
             base.OnModelCreating(builder);
         }
 

@@ -16,8 +16,11 @@ namespace IdentityServer4.Admin.EntitiesConfiguration
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).ValueGeneratedNever(); //不要自动生成
             builder.Property(x => x.Name).IsRequired().HasMaxLength(256);
-            builder.HasMany(x => x.Users).WithOne(x => x.Branch);
-            builder.HasMany<Role>(x => x.Roles).WithOne(x => x.Branch);
+            builder.HasMany<User>(x => x.Users)
+                .WithOne(x => x.Branch);
+
+            builder.HasMany<Role>(x => x.Roles)
+                .WithOne(x => x.Branch);
 
         }
     }

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IdentityServer4.Admin.Migrations
 {
     [DbContext(typeof(AdminDbContext))]
-    [Migration("20200504104056_ResetMigrations")]
+    [Migration("20200505071733_ResetMigrations")]
     partial class ResetMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,11 +43,6 @@ namespace IdentityServer4.Admin.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("BranchId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
-
-                    b.Property<int?>("BranchId1")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -87,8 +82,6 @@ namespace IdentityServer4.Admin.Migrations
 
                     b.HasIndex("BranchId");
 
-                    b.HasIndex("BranchId1");
-
                     b.HasIndex("NormalizedName")
                         .IsUnique()
                         .HasName("RoleNameIndex");
@@ -106,10 +99,7 @@ namespace IdentityServer4.Admin.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("BranchId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("BranchId")
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
+                        .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -1087,15 +1077,11 @@ namespace IdentityServer4.Admin.Migrations
 
             modelBuilder.Entity("IdentityServer4.Admin.Entities.Role", b =>
                 {
-                    b.HasOne("IdentityServer4.Admin.Entities.Branch", null)
+                    b.HasOne("IdentityServer4.Admin.Entities.Branch", "Branch")
                         .WithMany("Roles")
                         .HasForeignKey("BranchId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.HasOne("IdentityServer4.Admin.Entities.Branch", "Branch")
-                        .WithMany()
-                        .HasForeignKey("BranchId1");
                 });
 
             modelBuilder.Entity("IdentityServer4.Admin.Entities.User", b =>
@@ -1103,7 +1089,7 @@ namespace IdentityServer4.Admin.Migrations
                     b.HasOne("IdentityServer4.Admin.Entities.Branch", "Branch")
                         .WithMany("Users")
                         .HasForeignKey("BranchId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 

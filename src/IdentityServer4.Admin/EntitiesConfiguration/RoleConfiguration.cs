@@ -12,11 +12,14 @@ namespace IdentityServer4.Admin.EntitiesConfiguration
     {
         public void Configure(EntityTypeBuilder<Role> builder)
         {
-            builder.HasOne<Branch>().WithMany(x => x.Roles)
-                   .HasForeignKey(x => x.BranchId);
+            builder.HasOne<Branch>(x => x.Branch)
+                   .WithMany(x => x.Roles)
+                   .HasForeignKey(x => x.BranchId)
+                   .OnDelete(DeleteBehavior.NoAction);
 
-            builder.Property(x => x.BranchId).IsRequired().HasDefaultValue(0);
+            
             builder.HasQueryFilter(x => x.Name != "Administrator");
+            
         }
     }
 }

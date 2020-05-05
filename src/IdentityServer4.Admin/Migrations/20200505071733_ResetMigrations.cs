@@ -251,8 +251,7 @@ namespace IdentityServer4.Admin.Migrations
                     LastModifierUserId = table.Column<string>(maxLength: 256, nullable: true),
                     CreationTime = table.Column<DateTime>(nullable: false),
                     CreatorUserId = table.Column<string>(maxLength: 256, nullable: true),
-                    BranchId = table.Column<int>(nullable: false, defaultValue: 0),
-                    BranchId1 = table.Column<int>(nullable: true)
+                    BranchId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -261,14 +260,7 @@ namespace IdentityServer4.Admin.Migrations
                         name: "FK_AspNetRoles_Branch_BranchId",
                         column: x => x.BranchId,
                         principalTable: "Branch",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AspNetRoles_Branch_BranchId1",
-                        column: x => x.BranchId1,
-                        principalTable: "Branch",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -304,7 +296,7 @@ namespace IdentityServer4.Admin.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    BranchId = table.Column<int>(nullable: false, defaultValue: 0),
+                    BranchId = table.Column<int>(nullable: false),
                     IsDelete = table.Column<bool>(nullable: false, defaultValue: false)
                 },
                 constraints: table =>
@@ -314,8 +306,7 @@ namespace IdentityServer4.Admin.Migrations
                         name: "FK_AspNetUsers_Branch_BranchId",
                         column: x => x.BranchId,
                         principalTable: "Branch",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -717,11 +708,6 @@ namespace IdentityServer4.Admin.Migrations
                 name: "IX_AspNetRoles_BranchId",
                 table: "AspNetRoles",
                 column: "BranchId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetRoles_BranchId1",
-                table: "AspNetRoles",
-                column: "BranchId1");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",

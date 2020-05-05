@@ -32,6 +32,7 @@ namespace IdentityServer4.Admin
         public void EnsureData()
         {
             AddBranches();//先填充branch数据，因为user依赖branch
+
             if (!_dbContext.Users.Any())
             {
                 _logger.LogInformation("Seeding database...");
@@ -49,6 +50,15 @@ namespace IdentityServer4.Admin
                     throw new IdentityServer4AdminException("Create super admin role failed");
                 }
 
+                foreach (var singleRole in BaseRoleList.RoleList.Where(x => x.NormalizedName != "Administrator"))
+                {
+                    var res = _serviceProvider.GetRequiredService<RoleManager<Role>>().CreateAsync(singleRole);
+                  
+                   if (!res.Result.Succeeded)
+                   {
+                       throw new Exception($"{singleRole.NormalizedName}角色创建失败");
+                   }
+                }
                 var userMgr = _serviceProvider.GetRequiredService<UserManager<User>>();
                 var user = new User
                 {
@@ -71,68 +81,63 @@ namespace IdentityServer4.Admin
                     throw new IdentityServer4AdminException("Create super admin user failed");
                 }
 
-                identityResult = userMgr.AddToRoleAsync(user, AdminConstants.AdminName).Result;
-                _dbContext.Roles.Add(new Role()
-                {
-                    BranchId = 1000,
-                    CreationTime = DateTime.Now,
-                    Id = Guid.NewGuid(),
-                    Name = "BranchOwner",
-                    NormalizedName = "系统管理员",
-
-                });
+                //重复添加同样的角色，会报错
+                identityResult = userMgr.AddToRolesAsync(user, new List<string>(){ AdminConstants.AdminName ,"ERP"}).Result;
+                
                 if (!identityResult.Succeeded)
                 {
                     throw new IdentityServer4AdminException("Add super admin user to role failed");
                 }
 
+
+
                 Commit();
 
                 _logger.LogInformation("Done seeding database");
             }
-            else
-            {
-                if (_isDev)
-                {
-                    var userMgr = _serviceProvider.GetRequiredService<UserManager<User>>();
-                    var admin = userMgr.FindByNameAsync("admin").Result;
-                    if (admin != null)
-                    {
-                        userMgr.DeleteAsync(admin).GetAwaiter().GetResult();
-                    }
+            //else
+            //{
+            //    if (_isDev)
+            //    {
+            //        var userMgr = _serviceProvider.GetRequiredService<UserManager<User>>();
+            //        var admin = userMgr.FindByNameAsync(AdminConstants.AdminName).Result;
+            //        if (admin != null)
+            //        {
+            //            userMgr.DeleteAsync(admin).GetAwaiter().GetResult();
+            //        }
 
-                    var user = new User
-                    {
-                        Id = Guid.NewGuid(),
-                        UserName = "admin",
-                        Email = "admin@ids4admin.com",
-                        EmailConfirmed = true,
-                        CreationTime = DateTime.Now
-                    };
+            //        var user = new User
+            //        {
+            //            Id = Guid.NewGuid(),
+            //            UserName = AdminConstants.AdminName,
+            //            Email = "admin@ids4admin.com",
+            //            EmailConfirmed = true,
+            //            CreationTime = DateTime.Now
+            //        };
 
-                    var password = _serviceProvider.GetRequiredService<IConfiguration>()["ADMIN_PASSWORD"];
-                    if (string.IsNullOrWhiteSpace(password))
-                    {
-                        password = "1qazZAQ!";
-                    }
+            //        var password = _serviceProvider.GetRequiredService<IConfiguration>()["ADMIN_PASSWORD"];
+            //        if (string.IsNullOrWhiteSpace(password))
+            //        {
+            //            password = "1qazZAQ!";
+            //        }
 
-                    var identityResult = userMgr.CreateAsync(user, password).Result;
-                    if (!identityResult.Succeeded)
-                    {
-                        throw new IdentityServer4AdminException("Create super admin user failed");
-                    }
+            //        var identityResult = userMgr.CreateAsync(user, password).Result;
+            //        if (!identityResult.Succeeded)
+            //        {
+            //            throw new IdentityServer4AdminException("Create super admin user failed");
+            //        }
 
-                    identityResult = userMgr.AddToRoleAsync(user, AdminConstants.AdminName).Result;
-                    if (!identityResult.Succeeded)
-                    {
-                        throw new IdentityServer4AdminException("Add super admin user to role failed");
-                    }
+            //        identityResult = userMgr.AddToRoleAsync(user, AdminConstants.AdminName).Result;
+            //        if (!identityResult.Succeeded)
+            //        {
+            //            throw new IdentityServer4AdminException("Add super admin user to role failed");
+            //        }
 
-                    Commit();
-                }
+            //        Commit();
+            //    }
 
-                _logger.LogInformation("Ignore seed database...");
-            }
+            //    _logger.LogInformation("Ignore seed database...");
+            //}
 
             var userMgr2 = _serviceProvider.GetRequiredService<UserManager<User>>();
             var testUserCount = 15;
@@ -242,6 +247,8 @@ namespace IdentityServer4.Admin
             {
                 _logger.LogInformation("branch数据已经被填充");
             }
+
+            Commit();
         }
 
         private IEnumerable<ApiResource> GetApiResources()
