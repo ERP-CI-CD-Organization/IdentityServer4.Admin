@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using IdentityServer4.Admin.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace IdentityServer4.Admin.EntitiesConfiguration
@@ -12,6 +13,7 @@ namespace IdentityServer4.Admin.EntitiesConfiguration
     {
         public void Configure(EntityTypeBuilder<IdentityUserRole<Guid>> builder)
         {
+            builder.ToTable("UserRoles");
             builder.HasKey(x => new {x.RoleId,x.UserId });
           
         }

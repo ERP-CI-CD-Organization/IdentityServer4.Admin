@@ -12,6 +12,7 @@ namespace IdentityServer4.Admin.EntitiesConfiguration
     {
         public void Configure(EntityTypeBuilder<Role> builder)
         {
+            builder.ToTable("Roles");
             builder.HasOne<Branch>(x => x.Branch)
                    .WithMany(x => x.Roles)
                    .HasForeignKey(x => x.BranchId)

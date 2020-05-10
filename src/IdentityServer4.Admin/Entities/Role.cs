@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 namespace IdentityServer4.Admin.Entities
 {
     /// <summary>
-    /// 角色
+    /// 角色  坑1：不可以使用Administrator作为角色名
     /// </summary>
     public class Role<TKey> : IdentityRole<TKey>, IEntity<TKey> where TKey : IEquatable<TKey>
     {
@@ -87,6 +87,7 @@ namespace IdentityServer4.Admin.Entities
 
             return false;
         }
+
     }
 
     /// <summary>

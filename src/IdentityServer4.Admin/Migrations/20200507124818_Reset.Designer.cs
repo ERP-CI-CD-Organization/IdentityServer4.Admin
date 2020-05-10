@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IdentityServer4.Admin.Migrations
 {
     [DbContext(typeof(AdminDbContext))]
-    [Migration("20200505071733_ResetMigrations")]
-    partial class ResetMigrations
+    [Migration("20200507124818_Reset")]
+    partial class Reset
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,7 +33,7 @@ namespace IdentityServer4.Admin.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Branch");
+                    b.ToTable("Branches");
                 });
 
             modelBuilder.Entity("IdentityServer4.Admin.Entities.Role", b =>

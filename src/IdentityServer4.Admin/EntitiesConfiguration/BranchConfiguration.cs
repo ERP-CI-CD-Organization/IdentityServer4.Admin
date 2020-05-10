@@ -12,7 +12,7 @@ namespace IdentityServer4.Admin.EntitiesConfiguration
     {
         public void Configure(EntityTypeBuilder<Branch> builder)
         {
-            builder.ToTable("Branch"); //表名
+            builder.ToTable("Branches"); //表名
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).ValueGeneratedNever(); //不要自动生成
             builder.Property(x => x.Name).IsRequired().HasMaxLength(256);

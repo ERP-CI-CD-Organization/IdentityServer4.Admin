@@ -31,7 +31,7 @@ namespace IdentityServer4.Admin.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Branch");
+                    b.ToTable("Branches");
                 });
 
             modelBuilder.Entity("IdentityServer4.Admin.Entities.Role", b =>

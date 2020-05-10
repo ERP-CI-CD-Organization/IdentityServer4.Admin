@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace IdentityServer4.Admin.Migrations
 {
-    public partial class ResetMigrations : Migration
+    public partial class Reset : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -28,7 +28,7 @@ namespace IdentityServer4.Admin.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Branch",
+                name: "Branches",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false),
@@ -36,7 +36,7 @@ namespace IdentityServer4.Admin.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Branch", x => x.Id);
+                    table.PrimaryKey("PK_Branches", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -257,9 +257,9 @@ namespace IdentityServer4.Admin.Migrations
                 {
                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetRoles_Branch_BranchId",
+                        name: "FK_AspNetRoles_Branches_BranchId",
                         column: x => x.BranchId,
-                        principalTable: "Branch",
+                        principalTable: "Branches",
                         principalColumn: "Id");
                 });
 
@@ -303,9 +303,9 @@ namespace IdentityServer4.Admin.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUsers_Branch_BranchId",
+                        name: "FK_AspNetUsers_Branches_BranchId",
                         column: x => x.BranchId,
-                        principalTable: "Branch",
+                        principalTable: "Branches",
                         principalColumn: "Id");
                 });
 
@@ -928,7 +928,7 @@ namespace IdentityServer4.Admin.Migrations
                 name: "ApiResources");
 
             migrationBuilder.DropTable(
-                name: "Branch");
+                name: "Branches");
         }
     }
 }

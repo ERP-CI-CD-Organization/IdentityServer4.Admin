@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using IdentityModel;
 using IdentityServer4.Admin.Entities;
 using IdentityServer4.Admin.Infrastructure;
 using IdentityServer4.EntityFramework.Mappers;
@@ -31,34 +32,34 @@ namespace IdentityServer4.Admin
 
         public void EnsureData()
         {
-            AddBranches();//先填充branch数据，因为user依赖branch
+            if (!_dbContext.Branches.Any())
+            {
+                AddBranches();//先填充branch数据，因为user依赖branch
+            }
+
+            if (!_dbContext.Roles.Any())
+            {
+                AddRoles();//角色表没有角色 则添加角色
+            }
 
             if (!_dbContext.Users.Any())
             {
                 _logger.LogInformation("Seeding database...");
 
-                var role = new Role
-                {
-                    Id = Guid.NewGuid(),
-                    Name = AdminConstants.AdminName,
-                    Description = "超级管理员"
-                };
-                var identityResult = _serviceProvider.GetRequiredService<RoleManager<Role>>().CreateAsync(role).Result;
+                //var role = new Role
+                //{
+                //    Id = Guid.NewGuid(),
+                //    Name = AdminConstants.AdminName,
+                //    Description = "超级管理员"
+                //};
+                //var identityResult = _serviceProvider.GetRequiredService<RoleManager<Role>>().CreateAsync(role).Result;
 
-                if (!identityResult.Succeeded)
-                {
-                    throw new IdentityServer4AdminException("Create super admin role failed");
-                }
+                //if (!identityResult.Succeeded)
+                //{
+                //    throw new IdentityServer4AdminException("Create super admin role failed");
+                //}
 
-                foreach (var singleRole in BaseRoleList.RoleList.Where(x => x.NormalizedName != "Administrator"))
-                {
-                    var res = _serviceProvider.GetRequiredService<RoleManager<Role>>().CreateAsync(singleRole);
-                  
-                   if (!res.Result.Succeeded)
-                   {
-                       throw new Exception($"{singleRole.NormalizedName}角色创建失败");
-                   }
-                }
+               
                 var userMgr = _serviceProvider.GetRequiredService<UserManager<User>>();
                 var user = new User
                 {
@@ -68,23 +69,24 @@ namespace IdentityServer4.Admin
                     EmailConfirmed = true,
                     CreationTime = DateTime.Now
                 };
-
+                
                 var password = _serviceProvider.GetRequiredService<IConfiguration>()["ADMIN_PASSWORD"];
                 if (string.IsNullOrWhiteSpace(password))
                 {
                     password = "1qazZAQ!";
                 }
 
-                identityResult = userMgr.CreateAsync(user, password).Result;
-                if (!identityResult.Succeeded)
+                var res = userMgr.CreateAsync(user, password).Result;
+                if (!res.Succeeded)
                 {
                     throw new IdentityServer4AdminException("Create super admin user failed");
                 }
-
-                //重复添加同样的角色，会报错
-                identityResult = userMgr.AddToRolesAsync(user, new List<string>(){ AdminConstants.AdminName ,"ERP"}).Result;
+               
                 
-                if (!identityResult.Succeeded)
+                //重复添加同样的角色，会报错 添加角色的时候用的是NormalizedName，但是验证和授权的时候是Name
+                var addUserToRoles = userMgr.AddToRolesAsync(user, new List<string>(){ AdminConstants.AdminName ,"ERP"}).Result;
+                
+                if (!addUserToRoles.Succeeded)
                 {
                     throw new IdentityServer4AdminException("Add super admin user to role failed");
                 }
@@ -167,6 +169,7 @@ namespace IdentityServer4.Admin
             AddIdentityResources();
             AddApiResources();
             AddClients();
+
             Commit();
         }
 
@@ -256,7 +259,22 @@ namespace IdentityServer4.Admin
             return new List<ApiResource>
             {
                 new ApiResource("api1", "My API"),
-                new ApiResource("western-research-api", "western-research-api")
+                new ApiResource("western-research-api", "western-research-api"),
+                new ApiResource("ERP-API","ERP的API")
+                {
+                    ApiSecrets = {new Secret(){Type = IdentityServerConstants.SecretTypes.SharedSecret,Value = "ERP-API secret".Sha256()}},
+                    //Scopes = {new Scope()
+                    //{
+                    //    Description = "Full access ERP-API",
+                    //    DisplayName = "ERP-API Full Access",
+                    //    Name = "ERP-API",
+                    //    Emphasize = false,
+                    //    Required = false,
+                    //    ShowInDiscoveryDocument = false,
+                    //    UserClaims = {"role","openid","branchId"}
+                    //}}
+                    
+                },
             };
         }
 
@@ -288,6 +306,19 @@ namespace IdentityServer4.Admin
                     Name = "系统初始化"
                 },
             };
+        }
+
+        private void AddRoles()
+        {
+            foreach (var singleRole in BaseRoleList.RoleList)
+            {
+                var res = _serviceProvider.GetRequiredService<RoleManager<Role>>().CreateAsync(singleRole);
+
+                if (!res.Result.Succeeded)
+                {
+                    throw new Exception($"{singleRole.Name}角色创建失败");
+                }
+            }
         }
 
         // clients want to access resources (aka scopes)
@@ -370,6 +401,32 @@ namespace IdentityServer4.Admin
                 },
                 new Client
                 {
+                    ClientId = "ERP-Angular-WebApp",
+                    ClientName = "ERP前端",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    RequireClientSecret = false,
+                    RedirectUris = { "http://localhost:4200/signin-oidc", "http://localhost:4200/redirect-silentrenew"},
+                    PostLogoutRedirectUris = {"http://localhost:4200/home"},
+                    AllowedCorsOrigins = {"http://localhost:4200"},
+                    AllowAccessTokensViaBrowser = true,
+                    AccessTokenType = AccessTokenType.Reference,
+                    AlwaysIncludeUserClaimsInIdToken = true,
+                    AccessTokenLifetime = 60 * 5,
+                    RequireConsent = false,
+                    AllowRememberConsent = false,
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email,
+                        IdentityServerConstants.StandardScopes.Phone,
+                        "role",
+                        "ERP-API",
+                        "branchId"
+                    }
+                },
+                new Client
+                {
                     ClientId = "western-research",
                     ClientName = "western-research",
                     AllowedGrantTypes = GrantTypes.Implicit,
@@ -392,5 +449,6 @@ namespace IdentityServer4.Admin
                 }
             };
         }
+
     }
 }
