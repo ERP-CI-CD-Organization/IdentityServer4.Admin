@@ -111,7 +111,8 @@ namespace IdentityServer4.Admin
                   //  builder.UseMySql(GetConnectionString(args.Length > 0 ? args[0] : "appsettings.json"));
                        
                
-                    builder.UseSqlServer(GetConnectionString(args.Length > 0 ? args[0] : "appsettings.json"));
+                    builder.UseSqlServer(System.Environment.GetEnvironmentVariable("IdentityServerDB") ??
+                                         throw new InvalidOperationException("¶ÁÈ¡Á¬½Ó×Ö·û´®Ê§°Ü"));
                    
               
             

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -73,7 +74,7 @@ namespace IdentityServer4.Admin
                 case "sqlserver":
                 {
                     dbContextOptionsBuilder = b =>
-                        b.UseSqlServer(_options.ConnectionString,
+                        b.UseSqlServer(System.Environment.GetEnvironmentVariable("IdentityServerDB") ?? throw new InvalidOperationException("读取连接字符串失败"),
                             sql => sql.MigrationsAssembly(migrationsAssembly));
                     break;
                 }
