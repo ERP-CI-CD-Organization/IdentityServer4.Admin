@@ -403,7 +403,7 @@ namespace IdentityServer4.Admin
                 {
                     ClientId = "ERP-Angular-WebApp",
                     ClientName = "ERPÇ°¶Ë",
-                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowedGrantTypes = GrantTypes.Code,
                     RequireClientSecret = false,
                     RedirectUris = { "http://localhost:4200/signin-oidc", "http://localhost:4200/redirect-silentrenew"},
                     PostLogoutRedirectUris = {"http://localhost:4200/home"},
