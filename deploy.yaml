@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: identityserver
+spec:
+  selector:
+    matchLabels:
+      app: identityserver
+  replicas: 1
+  template: # template for the pods
+    metadata:
+      labels:
+        app: identityserver
+    spec:
+      containers:
+      - name: identityserver
+        # env:
+        # - name: SPRING_PROFILES_ACTIVE
+        #   value: production-microservice
+        image: erp-angular-identityserver
+        # pull image from remote server ? 
+        imagePullPolicy: Never
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 6566
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: identityserver
+
+spec:
+  # This defines which pods are going to be represented by this Service
+  # The service becomes a network endpoint for either other services
+  # or maybe external users to connect to (eg browser)
+  # minikube start --extra-config=apiserver.service-node-port-range=80-30000, 
+  # port 80 can be used as well
+  selector:
+    app: identityserver
+
+  ports:
+    - name: http
+      port: 6566
+  type: ClusterIP
+     
+

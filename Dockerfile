@@ -1,8 +1,16 @@
-# First stage of multi-stage build
+FROM node:lts-alpine3.9 AS node
+WORKDIR /app
+COPY . ./
+# workaround 'cd' command
+WORKDIR /app/src/IdentityServer4.Admin
+RUN npm i yarn
+RUN yarn install
+WORKDIR /app
+
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
 WORKDIR /app
-# copy the contents of agent working directory on host to workdir in container
-COPY . ./
+
+COPY --from=node /app .
 
 # dotnet commands to build, test, and publish
 RUN dotnet restore
