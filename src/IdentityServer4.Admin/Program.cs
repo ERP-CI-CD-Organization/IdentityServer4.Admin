@@ -40,6 +40,7 @@ namespace IdentityServer4.Admin
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.UseKestrel();
                     webBuilder.UseStartup<Startup>();
                     webBuilder.UseUrls("http://+:6566");
                     webBuilder.UseSerilog();
