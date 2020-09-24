@@ -15,9 +15,7 @@ spec:
       containers:
       - name: identityserver
         # env:
-        # - name: SPRING_PROFILES_ACTIVE
-        #   value: production-microservice
-        image: erp-angular-identityserver
+        image: identityserver
         # pull image from remote server ? 
         imagePullPolicy: Never
         readinessProbe:

@@ -7,7 +7,7 @@ pipeline {
      // get curretn commit sha, command 'git rev-parse HEAD' return full sha
      // if you wanna push image to dockerhub, image name must be unique
      GITCOMMITSHA = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
-     SERVICE_NAME = "IdentityServer4.Admin"
+     SERVICE_NAME = "identityserver4.admin"
      // ORGANIZATION_NAME = 'ERP-CI-CD-Organization'
    
    }
@@ -31,7 +31,7 @@ pipeline {
       stage('Deploy to Cluster') {
           steps {
                   sh 'kubectl apply -f deploy.yaml'
-                  sh 'kubectl set image deployments/webapp webapp=${SERVICE_NAME}:${GITCOMMITSHA}'
+                  sh 'kubectl set image deployments/identityserver identityserver=${SERVICE_NAME}:${GITCOMMITSHA}'
                 }
       }
    }
