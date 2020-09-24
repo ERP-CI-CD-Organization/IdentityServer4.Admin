@@ -19,7 +19,7 @@ RUN dotnet publish -c Release -o out
 
 # Second stage - Build runtime image
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
-ENV IdentityServerDB=mssqldb;User ID=sa;Password=yourStrong(!)Password;Initial Catalog=IdentityServer;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False
+ENV IdentityServerDB="Data Source=mssqldb;User ID=sa;Password=yourStrong(!)Password;Initial Catalog=IdentityServer;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
 WORKDIR /app
 COPY --from=build-env /app/out .
 RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak && \
