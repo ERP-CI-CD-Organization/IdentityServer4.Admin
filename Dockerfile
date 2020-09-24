@@ -19,6 +19,7 @@ RUN dotnet publish -c Release -o out
 
 # Second stage - Build runtime image
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
+ENV IdentityServerDB=123
 WORKDIR /app
 COPY --from=build-env /app/out .
 RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak && \
