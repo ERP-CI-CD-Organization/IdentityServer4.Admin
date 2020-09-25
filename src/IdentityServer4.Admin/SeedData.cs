@@ -237,13 +237,8 @@ namespace IdentityServer4.Admin
                 _logger.LogInformation("branches数据正在填充");
                 foreach (var branch in GetBranches())
                 {
-                    if (!_isDev)
-                    {
-                        if (branch.Id == 0)
-                            _dbContext.Branches.Add(branch);
-                        break;
-                    }
-                    _dbContext.Branches.Add(branch);
+                 _dbContext.Branches.Add(branch);
+
                 }
             }
             else
