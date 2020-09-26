@@ -394,6 +394,7 @@ namespace IdentityServer4.Admin
                         "api1"
                     }
                 },
+                // for dev
                 new Client
                 {
                     ClientId = "ERP-Angular-WebApp",
@@ -403,6 +404,33 @@ namespace IdentityServer4.Admin
                     RedirectUris = { "http://localhost:4200/signin-oidc", "http://localhost:4200/redirect-silentrenew"},
                     PostLogoutRedirectUris = {"http://localhost:4200/home"},
                     AllowedCorsOrigins = {"http://localhost:4200"},
+                    AllowAccessTokensViaBrowser = true,
+                    AccessTokenType = AccessTokenType.Reference,
+                    AlwaysIncludeUserClaimsInIdToken = true,
+                    AccessTokenLifetime = 60 * 5,
+                    RequireConsent = false,
+                    AllowRememberConsent = false,
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email,
+                        IdentityServerConstants.StandardScopes.Phone,
+                        "role",
+                        "ERP-API",
+                        "branchId"
+                    }
+                },
+                // for staging
+                new Client
+                {
+                    ClientId = "ERP-webapp",
+                    ClientName = "ERP-webapp",
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequireClientSecret = false,
+                    RedirectUris = { "http://www.erp.com:30080/signin-oidc", "http://www.erp.com:30080/redirect-silentrenew"},
+                    PostLogoutRedirectUris = {"http://www.erp.com:30080/home"},
+                    AllowedCorsOrigins = {"http://www.erp.com:30080"},
                     AllowAccessTokensViaBrowser = true,
                     AccessTokenType = AccessTokenType.Reference,
                     AlwaysIncludeUserClaimsInIdToken = true,
