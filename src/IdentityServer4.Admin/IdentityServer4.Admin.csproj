@@ -38,9 +38,6 @@
         <None Update="signing_key.rsa">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="libSkiaSharp.so">
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
     </ItemGroup>
     <ItemGroup>
         <None Update="Dockerfile">
