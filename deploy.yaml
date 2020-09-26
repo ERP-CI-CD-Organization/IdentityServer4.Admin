@@ -40,6 +40,7 @@ spec:
   ports:
     - name: http
       port: 6566
+      targetPort: 6566
   type: ClusterIP
      
 
