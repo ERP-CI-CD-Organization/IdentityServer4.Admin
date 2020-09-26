@@ -41,6 +41,7 @@ spec:
     - name: http
       port: 6566
       targetPort: 6566
-  type: ClusterIP
+      nodePort: 30090
+  type: NodePort
      
 
