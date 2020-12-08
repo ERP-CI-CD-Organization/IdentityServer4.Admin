@@ -74,7 +74,7 @@ namespace IdentityServer4.Admin
                 case "sqlserver":
                 {
                     dbContextOptionsBuilder = b =>
-                        b.UseSqlServer(System.Environment.GetEnvironmentVariable("IdentityServerDB") ?? throw new InvalidOperationException("读取连接字符串失败"),
+                        b.UseSqlServer(_configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("读取连接字符串失败"),
                             sql => sql.MigrationsAssembly(migrationsAssembly));
                     break;
                 }

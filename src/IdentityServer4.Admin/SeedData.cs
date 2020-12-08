@@ -34,12 +34,12 @@ namespace IdentityServer4.Admin
         {
             if (!_dbContext.Branches.Any())
             {
-                AddBranches();//ÏÈÌî³äbranchÊý¾Ý£¬ÒòÎªuserÒÀÀµbranch
+                AddBranches();//ï¿½ï¿½ï¿½ï¿½ï¿½branchï¿½ï¿½ï¿½Ý£ï¿½ï¿½ï¿½Îªuserï¿½ï¿½ï¿½ï¿½branch
             }
 
             if (!_dbContext.Roles.Any())
             {
-                AddRoles();//½ÇÉ«±íÃ»ÓÐ½ÇÉ« ÔòÌí¼Ó½ÇÉ«
+                AddRoles();//ï¿½ï¿½É«ï¿½ï¿½Ã»ï¿½Ð½ï¿½É« ï¿½ï¿½ï¿½ï¿½Ó½ï¿½É«
             }
 
             if (!_dbContext.Users.Any())
@@ -50,7 +50,7 @@ namespace IdentityServer4.Admin
                 //{
                 //    Id = Guid.NewGuid(),
                 //    Name = AdminConstants.AdminName,
-                //    Description = "³¬¼¶¹ÜÀíÔ±"
+                //    Description = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô±"
                 //};
                 //var identityResult = _serviceProvider.GetRequiredService<RoleManager<Role>>().CreateAsync(role).Result;
 
@@ -83,7 +83,7 @@ namespace IdentityServer4.Admin
                 }
                
                 
-                //ÖØ¸´Ìí¼ÓÍ¬ÑùµÄ½ÇÉ«£¬»á±¨´í Ìí¼Ó½ÇÉ«µÄÊ±ºòÓÃµÄÊÇNormalizedName£¬µ«ÊÇÑéÖ¤ºÍÊÚÈ¨µÄÊ±ºòÊÇName
+                //ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½Ä½ï¿½É«ï¿½ï¿½ï¿½á±¨ï¿½ï¿½ ï¿½ï¿½Ó½ï¿½É«ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½NormalizedNameï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½È¨ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Name
                 var addUserToRoles = userMgr.AddToRolesAsync(user, new List<string>(){ AdminConstants.AdminName ,"ERP"}).Result;
                 
                 if (!addUserToRoles.Succeeded)
@@ -234,7 +234,7 @@ namespace IdentityServer4.Admin
         {
             if (!_dbContext.Branches.Any())
             {
-                _logger.LogInformation("branchesÊý¾ÝÕýÔÚÌî³ä");
+                _logger.LogInformation("branchesï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
                 foreach (var branch in GetBranches())
                 {
                  _dbContext.Branches.Add(branch);
@@ -243,7 +243,7 @@ namespace IdentityServer4.Admin
             }
             else
             {
-                _logger.LogInformation("branchÊý¾ÝÒÑ¾­±»Ìî³ä");
+                _logger.LogInformation("branchï¿½ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
             }
 
             Commit();
@@ -255,7 +255,7 @@ namespace IdentityServer4.Admin
             {
                 new ApiResource("api1", "My API"),
                 new ApiResource("western-research-api", "western-research-api"),
-                new ApiResource("ERP-API","ERPµÄAPI")
+                new ApiResource("ERP-API","ERPï¿½ï¿½API")
                 {
                     ApiSecrets = {new Secret(){Type = IdentityServerConstants.SecretTypes.SharedSecret,Value = "ERP-API secret".Sha256()}},
                     //Scopes = {new Scope()
@@ -282,7 +282,8 @@ namespace IdentityServer4.Admin
                 new IdentityResources.Profile(),
                 new IdentityResources.Email(),
                 new IdentityResources.Phone(),
-                new IdentityResource("role", "Your roles", new[] {"role"})
+                new IdentityResource("role", "Your roles", new[] {"role"}),
+                new IdentityResource("branchId", "branchId", new[] {"branchId"})
             };
         }
 
@@ -293,12 +294,12 @@ namespace IdentityServer4.Admin
                 new Branch()
                 {
                      Id = 1000,
-                     Name = "Î¢ÈíÑÇÌ«ÑÐ¾¿ÖÐÐÄ"
+                     Name = "Î¢ï¿½ï¿½ï¿½ï¿½Ì«ï¿½Ð¾ï¿½ï¿½ï¿½ï¿½ï¿½"
                 },
                 new Branch()
                 {
                     Id = 0,
-                    Name = "ÏµÍ³³õÊ¼»¯"
+                    Name = "ÏµÍ³ï¿½ï¿½Ê¼ï¿½ï¿½"
                 },
             };
         }
@@ -311,7 +312,7 @@ namespace IdentityServer4.Admin
 
                 if (!res.Result.Succeeded)
                 {
-                    throw new Exception($"{singleRole.Name}½ÇÉ«´´½¨Ê§°Ü");
+                    throw new Exception($"{singleRole.Name}ï¿½ï¿½É«ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½");
                 }
             }
         }
@@ -398,10 +399,11 @@ namespace IdentityServer4.Admin
                 new Client
                 {
                     ClientId = "ERP-Angular-WebApp",
-                    ClientName = "ERPÇ°¶Ë",
+                    ClientName = "ERPÇ°ï¿½ï¿½",
                     AllowedGrantTypes = GrantTypes.Code,
                     RequireClientSecret = false,
-                    RedirectUris = { "http://localhost:4200/signin-oidc", "http://localhost:4200/redirect-silentrenew"},
+                    RedirectUris = { "http://localhost:4200/signin-oidc",
+                        "http://localhost:4200/renew-callback.html"},
                     PostLogoutRedirectUris = {"http://localhost:4200/home"},
                     AllowedCorsOrigins = {"http://localhost:4200"},
                     AllowAccessTokensViaBrowser = true,
